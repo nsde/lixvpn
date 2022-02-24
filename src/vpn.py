@@ -1,10 +1,15 @@
 import os
+import threading
 import subprocess
 import tkinter.messagebox
 
-def run(command: str):
+def run_thread(command: str):
+    pass
+
+def run(command: str, threaded=True):
     try:
-        return subprocess.run(command.split()) or True
+        threading.Thread(target=run)
+        return subprocess.run(command, shell=True) or True
     except Exception as e:
         tkinter.messagebox.showerror(title='Error!', message=e)
         return False
