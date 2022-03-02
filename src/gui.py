@@ -13,6 +13,7 @@ def get_theme():
             'fg': 'white',
             'bg': '#0E0F13',
             'light': '#008AE6',
+            'hover': '#655bdb',
             'warn': '#fc9d19',
             'critical': '#fc3b19',
             'ok': '#28ff02'
@@ -22,13 +23,14 @@ def get_theme():
             'fg': 'black',
             'bg': 'white',
             'light': '#008AE6',
+            'hover': '#655bdb',
             'warn': '#fc9d19',
             'critical': '#fc3b19',
             'ok': '#28ff02'
         }        
 
 def font_type():
-    return 'Consolas' if os.name == 'nt' else 'FreeMono' 
+    return 'Yu Gothic' if os.name == 'nt' else 'URW Gothic' 
 
 def theme_toggle():
     if open('theme.txt').read() == 'light':
@@ -39,22 +41,35 @@ def theme_toggle():
     if tkinter.messagebox.askyesno(title='Theme Toggle', message='The changes will apply after restarting.\nExit program now? (You need to start the program again for yourself.'):
         exit()
 
-win = tkinter.Tk() # neues Fenster
+def separator(space=5):
+    tkinter.Label(win, text='\n'*space, font=(font_type(), 5), fg=get_theme()['bg'], bg=get_theme()['bg']).pack()
+
+def connect():
+    vpn.connect()
+
+win = tkinter.Tk()
 win.config(bg=get_theme()['bg'])
-win.title('LixVPN') # Fenstertitel
-win.geometry('500x550') # Größe des Fensters in Pixel
+win.title('LixVPN')
+win.geometry('500x550')
 
-# label = Textfeld
-title_label = tkinter.Label(win, text='LixVPN', font=(font_type(), 20), fg=get_theme()['fg'], bg=get_theme()['bg'])
-title_label.pack()
+separator(1)
 
-display_label = tkinter.Label(win, text='', font=(font_type(), 40), fg=get_theme()['light'], bg=get_theme()['bg']) # Übersicht für das Ergebnis
-display_label.pack()
+title_row = tkinter.Frame(win, width=900, relief='flat', bd=0, bg=get_theme()['bg'], background=get_theme()['bg'], borderwidth=0)
+title_row.pack()
 
-tkinter.Button(win, text='☀️ Light Theme' if open('theme.txt').read() == 'light' else '🌑 Dark Theme', command=theme_toggle, font=(font_type(), 30, 'bold'), fg=get_theme()['fg'], bg=get_theme()['bg'], relief='flat').pack()
-tkinter.Button(win, text='Setup', command=vpn.setup, font=(font_type(), 30, 'bold'), fg=get_theme()['light'], bg=get_theme()['bg'], relief='flat').pack()
-tkinter.Button(win, text='Connect', command=vpn.connect, font=(font_type(), 30, 'bold'), fg=get_theme()['light'], bg=get_theme()['bg'], relief='flat').pack()
+tkinter.Label(title_row, text='Lix', font=(font_type(), 25, 'bold'), fg=get_theme()['fg'], bg=get_theme()['bg']).pack(side='left')
+tkinter.Label(title_row, text='VPN', font=(font_type(), 25, 'bold'), fg=get_theme()['light'], bg=get_theme()['bg']).pack(side='left')
+separator(1)
+
+for v in vpn.vpns():
+    tkinter.Button(win, text=v.title().split('.')[0], command=lambda v=v: vpn.connect(v), font=(font_type(), 20), fg=get_theme()['fg'], bg=get_theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=get_theme()['hover'], activebackground=get_theme()['bg']).pack()
+
+separator(1)
+tkinter.Button(win, text='How to add a VPN', command=vpn.close, font=(font_type(), 20), fg=get_theme()['light'], bg=get_theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=get_theme()['hover'], activebackground=get_theme()['bg']).pack()
+tkinter.Button(win, text='VPN Shop', command=vpn.close, font=(font_type(), 20), fg=get_theme()['light'], bg=get_theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=get_theme()['hover'], activebackground=get_theme()['bg']).pack()
+separator(1)
+tkinter.Button(win, text='☀️ Light Theme' if open('theme.txt').read() == 'light' else '🌑 Dark Theme', command=theme_toggle, font=(font_type(), 20), fg=get_theme()['fg'], bg=get_theme()['bg'], relief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=get_theme()['hover'], activebackground=get_theme()['bg']).pack()
 
 vpn.start()
 
-win = win.mainloop() # diese Zeile muss IMMER ganz unten im Code sein, das startet das Fenster.
+win = win.mainloop()
