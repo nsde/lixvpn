@@ -32,10 +32,11 @@ def vpns():
     return [f for f in os.listdir('vpns') if f.endswith('.ovpn')]
 
 def prompt_sudo():
+    return
     ret = 0
     if os.geteuid() != 0:
         msg = '[LixVPN] sudo-password for %u:'
-        ret = run(f'sudo -v -p "{}"')
+        ret = run(f'sudo -v -p ""')
     return ret
 
 def start():

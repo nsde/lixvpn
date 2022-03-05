@@ -7,6 +7,9 @@ import tkinter.messagebox
 if not os.path.exists('theme.txt'):
     open('theme.txt', 'w').write('light')
 
+if not os.path.exists('name.txt'):
+    open('name.txt', 'w').write('Lix')
+
 def get_theme():
     if open('theme.txt').read() == 'dark':
         return {
@@ -29,6 +32,9 @@ def get_theme():
             'ok': '#28ff02'
         }        
 
+def vpn_name():
+    return open('name.txt').read()
+
 def font_type():
     return 'Yu Gothic' if os.name == 'nt' else 'URW Gothic' 
 
@@ -49,7 +55,7 @@ def connect():
 
 win = tkinter.Tk()
 win.config(bg=get_theme()['bg'])
-win.title('LixVPN')
+win.title(f'{vpn_name()}VPN')
 win.geometry('500x550')
 
 separator(1)
@@ -57,7 +63,7 @@ separator(1)
 title_row = tkinter.Frame(win, width=900, relief='flat', bd=0, bg=get_theme()['bg'], background=get_theme()['bg'], borderwidth=0)
 title_row.pack()
 
-tkinter.Label(title_row, text='Lix', font=(font_type(), 25, 'bold'), fg=get_theme()['fg'], bg=get_theme()['bg']).pack(side='left')
+tkinter.Label(title_row, text=vpn_name(), font=(font_type(), 25, 'bold'), fg=get_theme()['fg'], bg=get_theme()['bg']).pack(side='left')
 tkinter.Label(title_row, text='VPN', font=(font_type(), 25, 'bold'), fg=get_theme()['light'], bg=get_theme()['bg']).pack(side='left')
 separator(1)
 
