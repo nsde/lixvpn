@@ -5,8 +5,11 @@ import colorama
 import threading
 import webbrowser
 import subprocess
+import gh_md_to_html
 import tkinter.messagebox
 
+
+cwd = os.getcwd()
 colorama.init(autoreset=True)
 
 @click.group()
@@ -25,8 +28,20 @@ def run_threaded(command: str, threaded=False):
         tkinter.messagebox.showerror(title='Error!', message=e)
         return False
 
+def convert_and_show(doc: str):
+    html_code = gh_md_to_html.main(f'{cwd}/docs/{doc}.md', website_root=cwd, enable_css_saving=False)
+    html_path = f'{cwd}/docs/generated/{doc}.html'
+    open(html_path, 'w').write(html_code)
+    webbrowser.open(html_path)
+
 def shop():
-    webbrowser.open('https://github.com/nsde/')
+    convert_and_show('shop')
+
+def tutorial():
+    webbrowser.open(cwd + '/docs/shop.md')
+
+def open_log():
+    webbrowser.open(os.path.abspath(''))
 
 def vpns():
     return [f for f in os.listdir('vpns') if f.endswith('.ovpn')]
@@ -35,13 +50,14 @@ def prompt_sudo():
     return
     ret = 0
     if os.geteuid() != 0:
-        msg = '[LixVPN] sudo-password for %u:'
-        ret = run(f'sudo -v -p ""')
+        ret = run(f'sudo -v -p "[LixVPN] sudo-password for %u:"')
     return ret
 
 def start():
     if not ('--no-sudo' in sys.argv or '--ns' in sys.argv):
         prompt_sudo()
+
+    print(colorama.Fore.BLUE + 'LixVPN started.')
 
 def close():
     run('pkill -f "gui.py"')
@@ -49,15 +65,10 @@ def close():
     run('pkill -f "cli.py"')
 
 def connect(to: str):
-    run(f'sudo openvpn --config vpns/{to} > connection.log')
+    run(f'sudo openvpn --config vpns/{to} > logs/connection.log')
 
-@cli.command()
-@click.option('-n', '--name', type=str, help='VPN Connection', default='lix')
 def connect_cli(name: 'lix'):
     name = list(name)
 
-    run(f'sudo openvpn --config vpns/{"".join(name)}.ovpn > connection.log')
+    connect(to=name)
     click.echo(colorama.Fore.BLUE + 'Connected with', name)
-
-if __name__ == '__main__':
-    print(colorama.Fore.BLUE + 'LixVPN started.')

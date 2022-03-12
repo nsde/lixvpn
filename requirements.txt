@@ -1,0 +1,4 @@
+click
+Pillow
+colorama
+gh-md-to-html
