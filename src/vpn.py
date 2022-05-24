@@ -1,6 +1,5 @@
 import os
 import sys
-import click
 import colorama
 import threading
 import webbrowser
@@ -11,10 +10,6 @@ import tkinter.messagebox
 
 cwd = os.getcwd()
 colorama.init(autoreset=True)
-
-@click.group()
-def cli():
-    pass
 
 def run(command: str, *args, **kwargs):
     return subprocess.run(command, shell=True) or True

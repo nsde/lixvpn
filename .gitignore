@@ -1,4 +1,5 @@
 vpns/*
+*.ovpn
 config/*
 
 # Byte-compiled / optimized / DLL files
