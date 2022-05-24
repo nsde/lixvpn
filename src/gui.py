@@ -76,19 +76,17 @@ separator(1)
 title_row = tkinter.Frame(win, width=900, relief='flat', bd=0, bg=theme()['bg'], background=theme()['bg'], borderwidth=0)
 title_row.pack()
 
-tkinter.Label(title_row, text='Please select a', font=(font_type(), 25), fg=theme()['fg'], bg=theme()['bg']).pack(side='left')
-tkinter.Label(title_row, text='VPN', font=(font_type(), 25), fg=theme()['light'], bg=theme()['bg']).pack(side='left')
-tkinter.Label(title_row, text=':', font=(font_type(), 25), fg=theme()['fg'], bg=theme()['bg']).pack(side='left')
-
+tkinter.Label(title_row, text='Available VPNs:', font=(font_type(), 25), fg=theme()['fg'], bg=theme()['bg']).pack(side='left')
 separator(1)
 
 for v in vpn.vpns():
     tkinter.Button(win, text=f'· {v.title().split(".")[0]}', command=lambda v=v: vpn.connect(v), font=(font_type(), 25, 'bold'), fg=theme()['fg'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
 
 separator(1)
-tkinter.Button(win, text='VPN Shop', command=vpn.shop, font=(font_type(), 20), fg=theme()['light'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
-tkinter.Button(win, text='How to add a VPN', command=vpn.tutorial, font=(font_type(), 20), fg=theme()['light'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
-tkinter.Button(win, text='Log', command=vpn.close, font=(font_type(), 20), fg=theme()['light'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
+tkinter.Button(win, text='VPN Shop', command=vpn.show_shop, font=(font_type(), 20), fg=theme()['light'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
+tkinter.Button(win, text='How to add a VPN', command=vpn.show_tutorial, font=(font_type(), 20), fg=theme()['light'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
+tkinter.Button(win, text='Log', command=vpn.show_log, font=(font_type(), 20), fg=theme()['light'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
+tkinter.Button(win, text='Close', command=vpn.close, font=(font_type(), 20), fg=theme()['critical'], bg=theme()['bg'], relief='flat', overrelief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
 separator(1)
 tkinter.Button(win, text='☀️ Light Theme' if open(THEME_FILE).read() == 'light' else '🌑 Dark Theme', command=theme_toggle, font=(font_type(), 20), fg=theme()['fg'], bg=theme()['bg'], relief='flat', borderwidth=0, highlightthickness=0, padx=0, pady=0, cursor='hand2', activeforeground=theme()['hover'], activebackground=theme()['bg']).pack()
 

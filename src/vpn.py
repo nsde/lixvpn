@@ -7,7 +7,6 @@ import subprocess
 import gh_md_to_html
 import tkinter.messagebox
 
-
 cwd = os.getcwd()
 colorama.init(autoreset=True)
 
@@ -16,7 +15,7 @@ def run(command: str, *args, **kwargs):
 
 def run_threaded(command: str, threaded=False):
     try:
-        print(command)
+        print(colorama.Fore.MAGENTA + command)
         thread = threading.Thread(target=run, args=([command])).start()
         return thread
     except Exception as e:
@@ -29,14 +28,14 @@ def convert_and_show(doc: str):
     open(html_path, 'w').write(html_code)
     webbrowser.open(html_path)
 
-def shop():
+def show_shop():
     convert_and_show('shop')
 
-def tutorial():
+def show_tutorial():
     webbrowser.open(cwd + '/docs/shop.md')
 
-def open_log():
-    webbrowser.open(os.path.abspath(''))
+def show_log():
+    webbrowser.open()
 
 def vpns():
     return [f for f in os.listdir('vpns') if f.endswith('.ovpn')]
@@ -61,9 +60,3 @@ def close():
 
 def connect(to: str):
     run(f'sudo openvpn --config vpns/{to} > logs/connection.log')
-
-def connect_cli(name: 'lix'):
-    name = list(name)
-
-    connect(to=name)
-    click.echo(colorama.Fore.BLUE + 'Connected with', name)
